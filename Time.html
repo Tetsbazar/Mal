@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>অধ্যায় ৮ কুইজ - সেট ৫ (লগইন আবশ্যক)</title>
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --primary-hover: #357abd;
+            --bg-color: #f4f7f6;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --correct-color: #2ecc71;
+            --wrong-color: #e74c3c;
+            --form-btn-color: #9b59b6;
+            --form-btn-hover: #8e44ad;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 750px;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            position: relative;
+            height: fit-content;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 1.8em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            font-size: 1em;
+        }
+
+        /* Login Section Styles */
+        #login-section {
+            display: block; /* Initially visible */
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1.1em;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .error-message {
+            color: var(--wrong-color);
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        /* Quiz Section Styles */
+        #quiz-section {
+            display: none; /* Hidden until login */
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #7f8c8d;
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .option-item {
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option-item:hover {
+            border-color: var(--primary-color);
+            background-color: #eef5ff;
+        }
+
+        .option-item.selected {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Google Form Button Style */
+        .btn-form {
+            background-color: var(--form-btn-color);
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            box-sizing: border-box;
+        }
+
+        .btn-form:hover {
+            background-color: var(--form-btn-hover);
+        }
+
+        /* Results Section */
+        #result-section {
+            display: none;
+        }
+
+        .score-board {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #eef5ff, #dcfce7);
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .score-board h2 {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 2em;
+        }
+
+        .review-item {
+            background-color: #fdfdfd;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .review-q {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .review-ans {
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        .ans-correct { color: var(--correct-color); font-weight: bold; }
+        .ans-wrong { color: var(--wrong-color); font-weight: bold; }
+
+        .explanation {
+            background-color: #fff9e6;
+            border-left: 4px solid #f1c40f;
+            padding: 12px 15px;
+            margin-top: 15px;
+            font-size: 0.95em;
+            color: #555;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .welcome-text {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Login Section -->
+    <div id="login-section">
+        <h1>স্টুডেন্ট লগইন</h1>
+        <p class="subtitle">ইতিহাস কুইজ শুরু করতে নিচে লগইন করুন</p>
+
+        <div class="form-group">
+            <label for="username">ইউজারনেম (Username)</label>
+            <input type="text" id="username" placeholder="আপনার ইউজারনেম দিন (যেমন: anil7890)" autocomplete="off">
+        </div>
+
+        <div class="form-group">
+            <label for="password">পাসওয়ার্ড (Password)</label>
+            <input type="password" id="password" placeholder="আপনার গোপন পাসওয়ার্ড দিন">
+        </div>
+
+        <div class="error-message" id="error-message">ইউজারনেম অথবা পাসওয়ার্ড ভুল হয়েছে!</div>
+
+        <button class="btn" id="login-btn">লগইন করুন</button>
+    </div>
+
+    <!-- Quiz Section -->
+    <div id="quiz-section">
+        <h1>ইতিহাস কুইজ: অধ্যায় ৮</h1>
+        <div class="subtitle">
+            <span class="welcome-text">স্বাগতম, <span id="student-name"></span>!</span> | সেট ৫: খুঁটিনাটি ও সাহিত্যকর্মের গভীরে
+        </div>
+
+        <div class="question-header">
+            <span id="q-counter">প্রশ্ন: ১ / ১৫</span>
+        </div>
+
+        <div class="question-text" id="question-text">এখানে প্রশ্ন আসবে</div>
+        <ul class="options-list" id="options-list">
+            <!-- Options will be injected here via JS -->
+        </ul>
+
+        <button class="btn" id="next-btn">পরবর্তী প্রশ্ন</button>
+    </div>
+
+    <!-- Result Section -->
+    <div id="result-section">
+        <div class="score-board">
+            <h2>কুইজ সম্পন্ন হয়েছে, <span id="result-student-name"></span>!</h2>
+            <h1 style="margin-top: 10px;" id="final-score">স্কোর: 0 / 15</h1>
+        </div>
+
+        <!-- Google Form Link -->
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfJF6CrU-AZ8aenjIu3TyRljg3Mv0rB5rz66f8awPS9iAU5iA/viewform?usp=dialog" target="_blank" class="btn btn-form">
+            পরবর্তী ধাপের জন্য এই ফর্মটি ফিলাপ করুন
+        </a>
+
+        <h3 style="margin-top: 30px;">প্রশ্নের বিস্তারিত পর্যালোচনা:</h3>
+        <div id="review-container">
+            <!-- Review items will be injected here via JS -->
+        </div>
+        <button class="btn" onclick="location.reload()">লগ আউট ও পুনরায় শুরু করুন</button>
+    </div>
+
+</div>
+
+<script>
+    // --- Login System Logic ---
+
+    // Approved students database
+    const approvedStudents ={
+        "anil7890": "12345677",
+        "samir7890": "12345666",
+        "rahul2024": "pass1234",
+        "rohit999": "88889999",
+        "suman007": "abcdef12"
+    };
+
+    const loginSection = document.getElementById("login-section");
+    const quizSection = document.getElementById("quiz-section");
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+    const loginBtn = document.getElementById("login-btn");
+    const errorMessage = document.getElementById("error-message");
+    const studentNameDisplay = document.getElementById("student-name");
+    const resultStudentName = document.getElementById("result-student-name");
+
+    loginBtn.addEventListener("click", () => {
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        // Check if the username exists and the password matches
+        if (approvedStudents[username] && approvedStudents[username] === password) {
+            errorMessage.style.display = "none";
+            loginSection.style.display = "none";
+            quizSection.style.display = "block";
+
+            // Set student name in the UI
+            studentNameDisplay.innerText = username;
+            resultStudentName.innerText = username;
+
+            // Start the quiz
+            loadQuestion();
+        } else {
+            // Show error message
+            errorMessage.style.display = "block";
+        }
+    });
+
+    // --- Quiz Data and Logic ---
+
+    const quizData = [
+        {
+            question: "১. 'মিডনাইটস চিলড্রেন' গ্রন্থটি কে রচনা করেছেন?",
+            options: ["সলমন রুশদি", "খুশবন্ত সিং", "নীরদচন্দ্র চৌধুরী", "অন্নদাশংকর রায়"],
+            answer: "সলমন রুশদি",
+            explanation: "দেশভাগের যন্ত্রণা ও তৎকালীন জনজীবনের করুণ চিত্র ফুটে উঠেছে সলমন রুশদির রচিত বিখ্যাত গ্রন্থ 'মিডনাইটস চিলড্রেন'-এ।"
+        },
+        {
+            question: "২. 'এ ট্রেন টু পাকিস্তান' গ্রন্থটির রচয়িতা কে?",
+            options: ["চৌধুরী খালিকুজ্জামন", "খুশবন্ত সিং", "মানিক বন্দ্যোপাধ্যায়", "অমিতাভ ঘোষ"],
+            answer: "খুশবন্ত সিং",
+            explanation: "পাঞ্জাব অঞ্চলে দেশভাগের ফলে ঘটা প্রত্যক্ষ দাঙ্গা ও হিংস্রতার মর্মান্তিক বিবরণ পাওয়া যায় খুশবন্ত সিংয়ের 'এ ট্রেন টু পাকিস্তান' গ্রন্থে।"
+        },
+        {
+            question: "৩. 'পাথওয়ে টু পাকিস্তান' গ্রন্থের রচয়িতা কে?",
+            options: ["মোহম্মদ আলি জিন্না", "চৌধুরী খালিকুজ্জামন", "লিয়াকত আলি খান", "শেখ আবদুল্লা"],
+            answer: "চৌধুরী খালিকুজ্জামন",
+            explanation: "তৎকালীন রাজনৈতিক প্রেক্ষাপট ও দেশভাগের করুণ চিত্র ফুটে উঠেছে চৌধুরী খালিকুজ্জামন রচিত 'পাথওয়ে টু পাকিস্তান' গ্রন্থে।"
+        },
+        {
+            question: "৪. 'যুক্তবঙ্গের স্মৃতি' নামক গ্রন্থটি কার রচনা?",
+            options: ["অন্নদাশংকর রায়", "শঙ্খ ঘোষ", "কালীপ্রসাদ মুখোপাধ্যায়", "সুনন্দা শিকদার"],
+            answer: "অন্নদাশংকর রায়",
+            explanation: "ছেড়ে আসা মাতৃভূমির স্মৃতি ও গভীর টান প্রকাশ পেয়েছে অন্নদাশংকর রায়ের 'যুক্তবঙ্গের স্মৃতি' নামক গ্রন্থে।"
+        },
+        {
+            question: "৫. 'অটোবায়োগ্রাফি অফ অ্যান আননোন ইন্ডিয়ান' গ্রন্থের রচয়িতা কে?",
+            options: ["নীরদচন্দ্র চৌধুরী", "এন. কে. বোস", "প্রফুল্লচন্দ্র রায়", "আবু ইসহাক"],
+            answer: "নীরদচন্দ্র চৌধুরী",
+            explanation: "দেশভাগের ফলে উদ্ভূত দাঙ্গা ও ধ্বংসের ছবি নীরদচন্দ্র চৌধুরীর আত্মজীবনীমূলক গ্রন্থ 'অটোবায়োগ্রাফি অফ অ্যান আননোন ইন্ডিয়ান'-এ লিপিবদ্ধ করা হয়েছে।"
+        },
+        {
+            question: "৬. 'সূর্য দীঘল বাড়ী' নামক দেশভাগ সম্পর্কিত গ্রন্থটি কে লিখেছেন?",
+            options: ["শঙ্খ ঘোষ", "আবু ইসহাক", "মিহির সেনগুপ্ত", "ঋত্বিক ঘটক"],
+            answer: "আবু ইসহাক",
+            explanation: "দেশভাগের মর্মান্তিক প্রেক্ষাপটে রচিত অন্যতম প্রামাণ্য গ্রন্থ হলো আবু ইসহাকের 'সূর্য দীঘল বাড়ী'।"
+        },
+        {
+            question: "৭. 'কেয়াপাতার নৌকা' নামক দেশভাগের প্রেক্ষাপটে রচিত গ্রন্থটির লেখক কে?",
+            options: ["প্রফুল্লচন্দ্র রায়", "প্রফুল্লচন্দ্র চক্রবর্তী", "দক্ষিণারঞ্জন বসু", "মানিক বন্দ্যোপাধ্যায়"],
+            answer: "প্রফুল্লচন্দ্র রায়",
+            explanation: "দেশভাগের ফলে উদ্ভূত হিংসা, ধ্বংস ও সাম্প্রদায়িক দাঙ্গার বিবরণ প্রফুল্লচন্দ্র রায়ের 'কেয়াপাতার নৌকা' গ্রন্থে তুলে ধরা হয়েছে।"
+        },
+        {
+            question: "৮. 'সুপুরিবনের সারি' গ্রন্থটি কার লেখা?",
+            options: ["শঙ্খ ঘোষ", "সুফিয়া কামাল", "জয়ন্তী বসু", "মণিকুন্তলা সেন"],
+            answer: "শঙ্খ ঘোষ",
+            explanation: "প্রখ্যাত কবি ও সাহিত্যিক শঙ্খ ঘোষ তাঁর 'সুপুরিবনের সারি' গ্রন্থে দেশভাগ ও ফেলে আসা জন্মভূমির স্মৃতি লিপিবদ্ধ করেছেন।"
+        },
+        {
+            question: "৯. 'মাই ডেজ উইথ গান্ধি' (My Days with Gandhi) গ্রন্থটি কে রচনা করেছেন?",
+            options: ["এন. কে. বোস", "জওহরলাল নেহরু", "সর্দার প্যাটেল", "রাজেন্দ্র প্রসাদ"],
+            answer: "এন. কে. বোস",
+            explanation: "দেশভাগ এবং তৎসংলগ্ন দাঙ্গার বিবরণ এন. কে. বোস তাঁর 'মাই ডেজ উইথ গান্ধি' গ্রন্থে অত্যন্ত সুচারুভাবে লিপিবদ্ধ করেছেন।"
+        },
+        {
+            question: "১০. 'শিকড়ের সন্ধানে' নামক স্মৃতিকথামূলক গ্রন্থটি কে লিখেছেন?",
+            options: ["কালীপ্রসাদ মুখোপাধ্যায়", "হিরন্ময় বন্দ্যোপাধ্যায়", "দক্ষিণারঞ্জন বসু", "অন্নদাশংকর রায়"],
+            answer: "কালীপ্রসাদ মুখোপাধ্যায়",
+            explanation: "ছেড়ে আসা মাতৃভূমির টান ও বেদনার চিত্র অত্যন্ত নিপুণভাবে প্রকাশ পেয়েছে কালীপ্রসাদ মুখোপাধ্যায়ের 'শিকড়ের সন্ধানে' গ্রন্থে।"
+        },
+        {
+            question: "১১. মাউন্টব্যাটেন পরিকল্পনা অনুযায়ী কোন্ তারিখে ভারতে ক্ষমতা হস্তান্তরের কথা ঘোষণা করা হয়েছিল?",
+            options: ["৩ জুন ১৯৪৭", "১৮ জুলাই ১৯৪৭", "১৫ আগস্ট ১৯৪৭", "২৬ জানুয়ারি ১৯৫০"],
+            answer: "৩ জুন ১৯৪৭",
+            explanation: "১৯৪৭ খ্রিস্টাব্দের ৩ জুন ভারতের গভর্নর জেনারেল মাউন্টব্যাটেন ভারত বিভাগ ও ক্ষমতা হস্তান্তরের বিষয়ে যে পরিকল্পনা ঘোষণা করেন তা 'মাউন্টব্যাটেন পরিকল্পনা' নামে পরিচিত।"
+        },
+        {
+            question: "১২. ১৯৪৬-৪৭ সালে জওহরলাল নেহরু দেশীয় রাজাদের কোন অধিকারকে 'স্বাধীন ভারত স্বীকার করে না' বলে ঘোষণা করেছিলেন?",
+            options: ["কর আদায়ের অধিকার", "দৈব অধিকার", "সেনাবাহিনী রাখার অধিকার", "চুক্তি করার অধিকার"],
+            answer: "দৈব অধিকার",
+            explanation: "নেহরু একাধিকবার ঘোষণা করেছিলেন যে, দেশীয় রাজাদের শাসন করার 'দৈব অধিকার' স্বাধীন ভারত স্বীকার করে না এবং তাদের অবশ্যই ভারত বা পাকিস্তানের সঙ্গে যুক্ত হতে হবে।"
+        },
+        {
+            question: "১৩. পেপসু (PEPSU)-এর পুরো কথা কী?",
+            options: ["Punjab and Eastern Provinces State Union", "Patiala and East Punjab States Union", "Patiala and Extended Punjab States Union", "Punjab and East Patiala States Union"],
+            answer: "Patiala and East Punjab States Union",
+            explanation: "পাঞ্জাবি ও হিন্দিভাষীদের মধ্যে ভাষাভিত্তিক রাজ্য গঠন নিয়ে মতভেদ দেখা দিলে ১৯৬৬ খ্রিস্টাব্দে পেপসু (PEPSU - Patiala and East Punjab States Union) প্রদেশকে তিন ভাগে বিভক্ত করা হয়।"
+        },
+        {
+            question: "১৪. হায়দরাবাদ রাজ্যকে ১৯৫৬ খ্রিস্টাব্দে ভেঙে কোন্ কোন্ রাজ্যের সঙ্গে যুক্ত করা হয়েছিল?",
+            options: ["মহারাষ্ট্র, কর্ণাটক ও keraলা", "অন্ধ্রপ্রদেশ, বোম্বাই ও মহীশূর", "মাদ্রাজ, মহীশূর ও গোয়া", "অন্ধ্রপ্রদেশ, মধ্যপ্রদেশ ও ওড়িশা"],
+            answer: "অন্ধ্রপ্রদেশ, বোম্বাই ও মহীশূর",
+            explanation: "১৯৫৬ খ্রিস্টাব্দে রাজ্য পুনর্গঠনের সময় বিশাল হায়দরাবাদকে তিনটি অংশে বিভক্ত করে পার্শ্ববর্তী অন্ধ্রপ্রদেশ, বোম্বাই ও মহীশূরের সঙ্গে যুক্ত করা হয়েছিল।"
+        },
+        {
+            question: "১৫. সরকারি ভাষা কমিশনের (১৯৫৫) রিপোর্টে কত সাল পর্যন্ত ইংরেজিকে সরকারি ভাষা হিসেবে রাখার কথা বলা হয়েছিল?",
+            options: ["১৯৬০ খ্রিস্টাব্দ", "১৯৬৫ খ্রিস্টাব্দ", "১৯৭০ খ্রিস্টাব্দ", "চিরকালের জন্য"],
+            answer: "১৯৬৫ খ্রিস্টাব্দ",
+            explanation: "১৯৫৬ খ্রিস্টাব্দে কমিশন যে রিপোর্ট প্রকাশ করে তাতে বলা হয়, দেবনাগরী অক্ষরে লিখিত হিন্দি সরকারি ভাষা হবে এবং ১৯৬৫ খ্রিস্টাব্দ পর্যন্ত ইংরেজি সরকারি ভাষা হিসেবে বহাল থাকবে।"
+        }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let selectedOption = "";
+    let userAnswers = [];
+
+    const questionTextEl = document.getElementById("question-text");
+    const optionsListEl = document.getElementById("options-list");
+    const nextBtn = document.getElementById("next-btn");
+    const qCounterEl = document.getElementById("q-counter");
+
+    const resultSection = document.getElementById("result-section");
+    const reviewContainer = document.getElementById("review-container");
+    const finalScoreEl = document.getElementById("final-score");
+
+    function loadQuestion() {
+        selectedOption = "";
+        const currentData = quizData[currentQuestionIndex];
+
+        qCounterEl.innerText = `প্রশ্ন: ${currentQuestionIndex + 1} / ${quizData.length}`;
+        questionTextEl.innerText = currentData.question;
+        optionsListEl.innerHTML = "";
+
+        if(currentQuestionIndex === quizData.length - 1) {
+            nextBtn.innerText = "কুইজ সাবমিট করুন";
+            nextBtn.style.backgroundColor = "#27ae60";
+        } else {
+            nextBtn.innerText = "পরবর্তী প্রশ্ন";
+            nextBtn.style.backgroundColor = "var(--primary-color)";
+        }
+
+        currentData.options.forEach(option => {
+            const li = document.createElement("li");
+            li.classList.add("option-item");
+            li.innerText = option;
+            li.onclick = () => selectOption(li, option);
+            optionsListEl.appendChild(li);
+        });
+    }
+
+    function selectOption(li, option) {
+        const allOptions = document.querySelectorAll(".option-item");
+        allOptions.forEach(opt => opt.classList.remove("selected"));
+        li.classList.add("selected");
+        selectedOption = option;
+    }
+
+    function showResults() {
+        quizSection.style.display = "none";
+        resultSection.style.display = "block";
+        finalScoreEl.innerText = `স্কোর: ${score} / ${quizData.length}`;
+
+        quizData.forEach((item, index) => {
+            const userAnswer = userAnswers[index];
+            const isCorrect = userAnswer === item.answer;
+
+            const reviewHtml = `
+                <div class="review-item">
+                    <div class="review-q">${item.question}</div>
+                    <div class="review-ans">
+                        আপনার উত্তর: <span class="${isCorrect ? 'ans-correct' : 'ans-wrong'}">
+                            ${userAnswer ? userAnswer : 'উত্তর দেননি (Skipped)'}
+                        </span>
+                    </div>
+                    ${!isCorrect ? `<div class="review-ans">সঠিক উত্তর: <span class="ans-correct">${item.answer}</span></div>` : ''}
+                    <div class="explanation">
+                        <strong>ব্যাখ্যা:</strong> ${item.explanation}
+                    </div>
+                </div>
+            `;
+            reviewContainer.innerHTML += reviewHtml;
+        });
+    }
+
+    nextBtn.addEventListener("click", () => {
+        // If no option is selected, ask if they want to skip
+        if (selectedOption === "") {
+            const confirmSkip = confirm("আপনি কোনো অপশন সিলেক্ট করেননি। আপনি কি এই প্রশ্নটি স্কিপ (Skip) করতে চান?");
+            if (!confirmSkip) {
+                return; // Do nothing if student cancels
+            }
+            userAnswers[currentQuestionIndex] = null; // Mark as skipped
+        } else {
+            userAnswers[currentQuestionIndex] = selectedOption;
+            if (selectedOption === quizData[currentQuestionIndex].answer) {
+                score++;
+            }
+        }
+
+        currentQuestionIndex++;
+
+        if (currentQuestionIndex < quizData.length) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    });
+
+</script>
+
+</body>
+</html>
