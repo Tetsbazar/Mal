@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neuron Animation</title>
+
+<style>
+body{
+    margin:0;
+    background:#f5f5f5;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    font-family:Arial,sans-serif;
+}
+
+svg{
+    width:90vw;
+    height:95vh;
+}
+
+.draw{
+    fill:none;
+    stroke:#d65a6f;
+    stroke-width:4;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-dasharray:2000;
+    stroke-dashoffset:2000;
+    animation:drawLine 8s linear forwards;
+}
+
+@keyframes drawLine{
+    to{
+        stroke-dashoffset:0;
+    }
+}
+
+.cell{
+    opacity:0;
+    animation:appear 1s forwards;
+    animation-delay:0.5s;
+}
+
+.nucleus{
+    opacity:0;
+    animation:appear 1s forwards;
+    animation-delay:1.2s;
+}
+
+@keyframes appear{
+    to{
+        opacity:1;
+    }
+}
+
+.myelin{
+    opacity:0;
+    animation:appear 1s forwards;
+}
+
+.m1{animation-delay:5s;}
+.m2{animation-delay:5.5s;}
+.m3{animation-delay:6s;}
+.m4{animation-delay:6.5s;}
+
+.impulse{
+    fill:gold;
+    opacity:0;
+    animation:moveImpulse 4s linear forwards;
+    animation-delay:8.5s;
+}
+
+@keyframes moveImpulse{
+    0%{
+        opacity:1;
+        transform:translate(0px,0px);
+    }
+    100%{
+        opacity:1;
+        transform:translate(0px,420px);
+    }
+}
+
+.label{
+    font-size:18px;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<svg viewBox="0 0 600 900">
+
+    <!-- Dendrites + Axon -->
+    <path class="draw"
+          d="
+          M300 160
+          L230 100
+          L180 80
+
+          M300 160
+          L370 90
+          L430 60
+
+          M300 160
+          L210 180
+          L140 220
+
+          M300 160
+          L400 190
+          L470 230
+
+          M300 220
+          L300 700
+
+          M300 700
+          L220 800
+
+          M300 700
+          L380 800
+
+          M300 700
+          L280 850
+
+          M300 700
+          L330 850
+          " />
+
+    <!-- Cell Body -->
+    <circle class="cell"
+            cx="300"
+            cy="160"
+            r="70"
+            fill="#f5a3b0"
+            stroke="#b33"
+            stroke-width="3"/>
+
+    <!-- Nucleus -->
+    <circle class="nucleus"
+            cx="300"
+            cy="160"
+            r="22"
+            fill="#b00020"/>
+
+    <!-- Myelin Sheath -->
+    <rect class="myelin m1" x="280" y="280" width="40" height="70" rx="10" fill="#c0392b"/>
+    <rect class="myelin m2" x="280" y="390" width="40" height="70" rx="10" fill="#c0392b"/>
+    <rect class="myelin m3" x="280" y="500" width="40" height="70" rx="10" fill="#c0392b"/>
+    <rect class="myelin m4" x="280" y="610" width="40" height="70" rx="10" fill="#c0392b"/>
+
+    <!-- Impulse -->
+    <circle class="impulse" cx="300" cy="220" r="10"/>
+
+    <!-- Labels -->
+    <text class="label" x="390" y="160">NUCLEUS</text>
+    <text class="label" x="390" y="320">AXON</text>
+    <text class="label" x="100" y="440">MYELIN SHEATH</text>
+    <text class="label" x="100" y="820">AXON TERMINAL</text>
+
+</svg>
+
+</body>
+</html>
